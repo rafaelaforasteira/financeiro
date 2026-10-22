@@ -10,6 +10,8 @@ RESUMO: criada base executável pnpm/Turborepo com Expo mobile, Next web/admin, 
 
 REFERÊNCIA GITHUB: https://github.com/rafaelaforasteira/financeiro/tree/feature/bootstrap-financial-app . Primeiro commit `f065784`. Escrita inicialmente recusada pelo conector com HTTP 403; alternativa por Git local publicou a branch com credencial existente. Nenhum merge na main ou implantação.
 
+PULL REQUEST: https://github.com/rafaelaforasteira/financeiro/pull/1 — rascunho aberto para revisão. Main permanece com base vazia; código da implementação somente na branch de revisão. Branch padrão main verificada por API.
+
 BRANCH/VERSÃO: feature/bootstrap-financial-app / fundação 0.0.1.
 
 TESTES: 13 unitários/regras e seis E2E web passaram; dez workspaces tipados; cinco builds; integração com PostgreSQL/Redis/worker; migração e seed repetido; inspeção visual web desktop/móvel. Mobile exportado, sem teste em dispositivo. Auditoria de dependências falhou com dois alertas altos e um baixo, mantidos visíveis.

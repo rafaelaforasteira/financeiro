@@ -52,9 +52,11 @@ Fixtures da Home não são leitura do PostgreSQL. A escolha de cenário não com
 
 ## GitHub e documentação central
 
-Repositório remoto inicialmente verificado vazio e público. CLI `gh` sem autenticação. O conector leu metadados, mas uma tentativa de criar README inicial retornou HTTP 403 `Resource not accessible by integration`; nenhum arquivo foi criado por essa tentativa. Como alternativa, o Git local utilizou a credencial já configurada no computador e publicou a branch com sucesso. Primeiro commit: `f065784` (`chore(repo): bootstrap executable demo monorepo`). A base de revisão `main` será inicializada com árvore vazia, sem código crítico; a implementação permanece em branch própria. Não houve merge da implementação na main ou alteração de visibilidade. Recomenda-se repositório privado antes de código sensível.
+Repositório remoto inicialmente verificado vazio e público. CLI `gh` sem autenticação. O conector leu metadados, mas tentativas de escrita retornaram HTTP 403 `Resource not accessible by integration`; nenhum arquivo ou PR foi criado por essas tentativas. Como alternativa, o Git local utilizou a credencial já configurada no computador e publicou a branch com sucesso; a mesma credencial foi usada diretamente na API oficial para criar o PR e ajustar a branch padrão. Primeiro commit: `f065784` (`chore(repo): bootstrap executable demo monorepo`); testes/documentação: `9d4a4ec`. A base de revisão `main` foi inicializada com árvore vazia (`3971732`), sem código crítico, e conectada à história da feature por merge na própria feature (`e4eac83`). A branch padrão é main. Não houve merge da implementação na main ou alteração de visibilidade. Recomenda-se repositório privado antes de código sensível.
 
 Referência publicada: https://github.com/rafaelaforasteira/financeiro/tree/feature/bootstrap-financial-app . Hashes adicionais podem ser consultados com `git log --oneline`. A documentação central foi lida; o registro pronto para inclusão está em `central-document-update.md`, sem alegar atualização remota.
+
+PR de revisão: [#1 — fundação executável e prévia demonstrativa](https://github.com/rafaelaforasteira/financeiro/pull/1), aberto como draft e anexado ao chat. Nenhum deploy realizado. CI configurada; resultado remoto deve ser consultado no PR e não inferido dos testes locais.
 
 ## Próxima etapa concreta
 
