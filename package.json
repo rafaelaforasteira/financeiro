@@ -1,0 +1,45 @@
+{
+  "name": "app-financeiro",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
+  "scripts": {
+    "dev": "turbo dev --filter=!@financeiro/mobile",
+    "build": "turbo build",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "turbo typecheck",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "db:generate": "pnpm --filter @financeiro/api db:generate",
+    "db:migrate": "pnpm --filter @financeiro/api db:migrate",
+    "db:seed": "pnpm --filter @financeiro/api db:seed",
+    "infra:up": "docker compose -f infra/local/compose.yaml up -d --wait",
+    "test:integration": "tsx scripts/check-infrastructure.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "~19.3.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^10.13.0",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.0",
+    "tsx": "^4.20.0",
+    "turbo": "2.11.10",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.46.0",
+    "vitest": "^4.0.0",
+    "pg": "^8.16.0",
+    "ioredis": "^5.8.0",
+    "bullmq": "^5.61.0",
+    "dotenv": "^17.2.0",
+    "@types/pg": "^8.15.0"
+  },
+  "type": "module"
+}
