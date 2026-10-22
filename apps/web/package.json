@@ -1,0 +1,22 @@
+{
+  "name": "@financeiro/web",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port 3000",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "16.4.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "@financeiro/contracts": "workspace:*",
+    "@financeiro/api-client": "workspace:*",
+    "@financeiro/design-tokens": "workspace:*",
+    "@financeiro/ui": "workspace:*",
+    "lucide-react": "^0.548.0",
+    "@fontsource/plus-jakarta-sans": "^5.2.0"
+  }
+}

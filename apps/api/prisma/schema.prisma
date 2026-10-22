@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProfileType {
+  CPF
+  CNPJ
+}
+
+model User {
+  id String @id @default(uuid()) @db.Uuid
+  email String @unique
+  passwordHash String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  memberships Membership[]
+}
+
+model Profile {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  type ProfileType
+  demo Boolean @default(true)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  memberships Membership[]
+  vaults Vault[]
+}
+
+model Membership {
+  userId String @db.Uuid
+  profileId String @db.Uuid
+  role String @default("OWNER")
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Restrict)
+  @@id([userId, profileId])
+  @@index([profileId])
+}
+
+model Vault {
+  id String @id @default(uuid()) @db.Uuid
+  profileId String @db.Uuid
+  name String
+  goalCents BigInt?
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Restrict)
+  @@index([profileId, createdAt])
+}
