@@ -1,0 +1,70 @@
+name: Qualidade demonstrativa
+on:
+  pull_request:
+  push:
+    branches: [main, 'feature/**', 'codex/**']
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      APP_MODE: DEMO
+      ENABLE_REAL_MONEY: 'false'
+      NODE_ENV: test
+      DATABASE_URL: postgresql://financeiro:local_demo_only@127.0.0.1:5432/financeiro_demo
+      REDIS_URL: redis://127.0.0.1:6379
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: financeiro
+          POSTGRES_PASSWORD: local_demo_only
+          POSTGRES_DB: financeiro_demo
+        ports: ['5432:5432']
+        options: --health-cmd 'pg_isready -U financeiro -d financeiro_demo' --health-interval 5s --health-timeout 3s --health-retries 15
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: --health-cmd 'redis-cli ping' --health-interval 5s --health-timeout 3s --health-retries 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm db:generate
+      - run: pnpm db:migrate
+      - run: pnpm db:seed
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm format:check
+      - run: pnpm build
+        env:
+          NODE_ENV: production
+      - name: Integração com worker separado
+        run: |
+          pnpm --filter @financeiro/worker start &
+          worker_pid=$!
+          trap 'kill "$worker_pid"' EXIT
+          pnpm test:integration
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - run: pnpm audit --audit-level high
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: test-results/
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
